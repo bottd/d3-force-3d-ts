@@ -31,14 +31,16 @@
   ],
   "type": "module",
   "files": [
-    "src/**/*.js",
-    "dist/**/*.js"
+    "dist"
   ],
-  "module": "src/index.js",
-  "main": "src/index.js",
+  "module": "./dist/d3-force-3d-ts.js",
+  "main": "./dist/d3-force-3d-ts.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "import": "./dist/d3-force-3d.js",
-    "default": "./src/index.js"
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/d3-force-3d-ts.js"
+    }
   },
   "sideEffects": false,
   "peerDependencies": {
@@ -52,12 +54,12 @@
     "eslint": "10.1.0",
     "typescript": "6.0.2",
     "vite": "8.0.3",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "4.1.2"
   },
   "scripts": {
     "build": "vite build",
-    "test": "vitest run && eslint src test",
-    "prepare": "rm -rf dist && pnpm test && pnpm build"
+    "test": "vitest run"
   },
   "engines": {
     "node": ">=18"
