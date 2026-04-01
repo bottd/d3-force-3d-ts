@@ -1,44 +1,61 @@
 {
-  "name": "d3-force",
-  "version": "0.0.1",
-  "description": "Force-directed graph layout using Position Verlet integration.",
-  "keywords": [
-    "d3",
-    "layout",
-    "network",
-    "graphc",
-    "force",
-    "verlet",
-    "infovis"
-  ],
-  "homepage": "https://github.com/d3/d3-force",
-  "license": "BSD-3-Clause",
-  "author": {
-    "name": "Mike Bostock",
-    "url": "http://bost.ocks.org/mike"
-  },
-  "main": "build/d3-force.js",
-  "jsnext:main": "index",
+  "name": "d3-force-3d",
+  "version": "3.0.6",
+  "description": "Force-directed graph layout in 1D, 2D or 3D using velocity Verlet integration.",
+  "homepage": "https://github.com/vasturiano/d3-force-3d",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3/d3-force.git"
+    "url": "https://github.com/vasturiano/d3-force-3d.git"
   },
-  "scripts": {
-    "pretest": "rm -rf build && mkdir build && json2module package.json > build/package.js && rollup -g d3-collection:d3_collection,d3-dispatch:d3_dispatch,d3-quadtree:d3_quadtree,d3-timer:d3_timer -f umd -n d3_force -o build/d3-force.js -- index.js",
-    "test": "tape 'test/**/*-test.js' && eslint index.js src",
-    "prepublish": "npm run test && uglifyjs build/d3-force.js -c -m -o build/d3-force.min.js",
-    "postpublish": "VERSION=`node -e 'console.log(require(\"./package.json\").version)'`; git push && git push --tags && cp build/d3-force.js ../d3.github.com/d3-force.v0.0.js && cp build/d3-force.min.js ../d3.github.com/d3-force.v0.0.min.js && cd ../d3.github.com && git add d3-force.v0.0.js d3-force.v0.0.min.js && git commit -m \"d3-force ${VERSION}\" && git push && cd - && zip -j build/d3-force.zip -- LICENSE README.md build/d3-force.js build/d3-force.min.js"
+  "keywords": [
+    "d3",
+    "d3-module",
+    "layout",
+    "network",
+    "graph",
+    "force",
+    "verlet",
+    "infovis",
+    "3d"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Vasco Asturiano",
+    "url": "https://github.com/vasturiano"
   },
+  "type": "module",
+  "files": [
+    "src/**/*.js",
+    "dist/**/*.js"
+  ],
+  "module": "src/index.js",
+  "main": "src/index.js",
+  "jsdelivr": "dist/d3-force-3d.min.js",
+  "unpkg": "dist/d3-force-3d.min.js",
+  "exports": {
+    "umd": "./dist/d3-force-3d.min.js",
+    "default": "./src/index.js"
+  },
+  "sideEffects": false,
   "dependencies": {
-    "d3-collection": "0.1",
-    "d3-dispatch": "0.4",
-    "d3-quadtree": "0.2",
-    "d3-timer": "0.4"
+    "d3-binarytree": "1",
+    "d3-dispatch": "1 - 3",
+    "d3-octree": "1",
+    "d3-quadtree": "1 - 3",
+    "d3-timer": "1 - 3"
   },
   "devDependencies": {
-    "json2module": "0.0",
-    "rollup": "0.25",
-    "tape": "4",
-    "uglify-js": "2"
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "eslint": "^8.33.0",
+    "mocha": "^10.2.0",
+    "rollup": "^3.14.0"
+  },
+  "scripts": {
+    "test": "mocha 'test/**/*-test.js' && eslint src test",
+    "prepare": "rm -rf dist && yarn test && rollup -c"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }
