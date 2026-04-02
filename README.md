@@ -55,19 +55,19 @@ For legacy environments, you can load d3-force-3d’s UMD bundle from an npm-bas
 
 ### Simulation
 
-<a name="forceSimulation" href="#forceSimulation">#</a> d3.<b>forceSimulation</b>([<i>nodes</i>], [<i>numDimensions</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="forceSimulation" href="#forceSimulation">#</a> d3.<b>forceSimulation</b>([<i>nodes</i>], [<i>numDimensions</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Creates a new simulation with the specified array of [_nodes_](#simulation_nodes), the number of [dimensions](#simulation_numDimensions) and no [forces](#simulation_force). If _nodes_ is not specified, it defaults to the empty array. If _numDimensions_ is not specified, it defaults to `2`. The simulator [starts](#simulation_restart) automatically; use [_simulation_.on](#simulation_on) to listen for tick events as the simulation runs. If you wish to run the simulation manually instead, call [_simulation_.stop](#simulation_stop), and then call [_simulation_.tick](#simulation_tick) as desired.
 
-<a name="simulation_restart" href="#simulation_restart">#</a> <i>simulation</i>.<b>restart</b>() · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_restart" href="#simulation_restart">#</a> <i>simulation</i>.<b>restart</b>() · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Restarts the simulation’s internal timer and returns the simulation. In conjunction with [_simulation_.alphaTarget](#simulation_alphaTarget) or [_simulation_.alpha](#simulation_alpha), this method can be used to “reheat” the simulation during interaction, such as when dragging a node, or to resume the simulation after temporarily pausing it with [_simulation_.stop](#simulation_stop).
 
-<a name="simulation_stop" href="#simulation_stop">#</a> <i>simulation</i>.<b>stop</b>() · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_stop" href="#simulation_stop">#</a> <i>simulation</i>.<b>stop</b>() · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Stops the simulation’s internal timer, if it is running, and returns the simulation. If the timer is already stopped, this method does nothing. This method is useful for running the simulation manually; see [_simulation_.tick](#simulation_tick).
 
-<a name="simulation_tick" href="#simulation_tick">#</a> <i>simulation</i>.<b>tick</b>([<i>iterations</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_tick" href="#simulation_tick">#</a> <i>simulation</i>.<b>tick</b>([<i>iterations</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Manually steps the simulation by the specified number of _iterations_, and returns the simulation. If _iterations_ is not specified, it defaults to 1 (single step).
 
@@ -77,13 +77,13 @@ This method does not dispatch [events](#simulation_on); events are only dispatch
 
 This method can be used in conjunction with [_simulation_.stop](#simulation_stop) to compute a [static force layout](https://bl.ocks.org/mbostock/1667139). For large graphs, static layouts should be computed [in a web worker](https://bl.ocks.org/mbostock/01ab2e85e8727d6529d20391c0fd9a16) to avoid freezing the user interface.
 
-<a name="simulation_numDimensions" href="#simulation_numDimensions">#</a> <i>simulation</i>.<b>numDimensions</b>([<i>numDimensions</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_numDimensions" href="#simulation_numDimensions">#</a> <i>simulation</i>.<b>numDimensions</b>([<i>numDimensions</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _numDimensions_ is specified, sets the simulation’s number of dimensions to use (1, 2 or 3), [re-initializes](#force_initialize) any bound [forces](#simulation_force) and returns the simulation. If _numSimulations_ is not specified, returns the current simulation’s number of dimensions, which defaults to 2.
 
 A one-dimensional simulation will only consider and manipulate the `x` and `vx` coordinate attributes, while a two-dimensional will extend the domain to `y` and `vy`, and a three-dimensional to `z` and `vz`.
 
-<a name="simulation_nodes" href="#simulation_nodes">#</a> <i>simulation</i>.<b>nodes</b>([<i>nodes</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_nodes" href="#simulation_nodes">#</a> <i>simulation</i>.<b>nodes</b>([<i>nodes</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _nodes_ is specified, sets the simulation’s nodes to the specified array of objects, initializing their positions and velocities if necessary, and then [re-initializes](#force_initialize) any bound [forces](#simulation_force); returns the simulation. If _nodes_ is not specified, returns the simulation’s array of nodes as specified to the [constructor](#forceSimulation).
 
@@ -109,31 +109,31 @@ At the end of each [tick](#simulation_tick), after the application of any forces
 
 If the specified array of _nodes_ is modified, such as when nodes are added to or removed from the simulation, this method must be called again with the new (or changed) array to notify the simulation and bound forces of the change; the simulation does not make a defensive copy of the specified array.
 
-<a name="simulation_alpha" href="#simulation_alpha">#</a> <i>simulation</i>.<b>alpha</b>([<i>alpha</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_alpha" href="#simulation_alpha">#</a> <i>simulation</i>.<b>alpha</b>([<i>alpha</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 _alpha_ is roughly analogous to temperature in [simulated annealing](https://en.wikipedia.org/wiki/Simulated_annealing#Overview). It decreases over time as the simulation “cools down”. When _alpha_ reaches _alphaMin_, the simulation stops; see [_simulation_.restart](#simulation_restart).
 
 If _alpha_ is specified, sets the current alpha to the specified number in the range [0,1] and returns this simulation. If _alpha_ is not specified, returns the current alpha value, which defaults to 1.
 
-<a name="simulation_alphaMin" href="#simulation_alphaMin">#</a> <i>simulation</i>.<b>alphaMin</b>([<i>min</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_alphaMin" href="#simulation_alphaMin">#</a> <i>simulation</i>.<b>alphaMin</b>([<i>min</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _min_ is specified, sets the minimum _alpha_ to the specified number in the range [0,1] and returns this simulation. If _min_ is not specified, returns the current minimum _alpha_ value, which defaults to 0.001. The simulation’s internal timer stops when the current [_alpha_](#simulation_alpha) is less than the minimum _alpha_. The default [alpha decay rate](#simulation_alphaDecay) of ~0.0228 corresponds to 300 iterations.
 
-<a name="simulation_alphaDecay" href="#simulation_alphaDecay">#</a> <i>simulation</i>.<b>alphaDecay</b>([<i>decay</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_alphaDecay" href="#simulation_alphaDecay">#</a> <i>simulation</i>.<b>alphaDecay</b>([<i>decay</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _decay_ is specified, sets the [_alpha_](#simulation_alpha) decay rate to the specified number in the range [0,1] and returns this simulation. If _decay_ is not specified, returns the current _alpha_ decay rate, which defaults to 0.0228… = 1 - _pow_(0.001, 1 / 300) where 0.001 is the default [minimum _alpha_](#simulation_alphaMin).
 
 The alpha decay rate determines how quickly the current alpha interpolates towards the desired [target _alpha_](#simulation_alphaTarget); since the default target _alpha_ is zero, by default this controls how quickly the simulation cools. Higher decay rates cause the simulation to stabilize more quickly, but risk getting stuck in a local minimum; lower values cause the simulation to take longer to run, but typically converge on a better layout. To have the simulation run forever at the current _alpha_, set the _decay_ rate to zero; alternatively, set a [target _alpha_](#simulation_alphaTarget) greater than the [minimum _alpha_](#simulation_alphaMin).
 
-<a name="simulation_alphaTarget" href="#simulation_alphaTarget">#</a> <i>simulation</i>.<b>alphaTarget</b>([<i>target</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_alphaTarget" href="#simulation_alphaTarget">#</a> <i>simulation</i>.<b>alphaTarget</b>([<i>target</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _target_ is specified, sets the current target [_alpha_](#simulation_alpha) to the specified number in the range [0,1] and returns this simulation. If _target_ is not specified, returns the current target alpha value, which defaults to 0.
 
-<a name="simulation_velocityDecay" href="#simulation_velocityDecay">#</a> <i>simulation</i>.<b>velocityDecay</b>([<i>decay</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_velocityDecay" href="#simulation_velocityDecay">#</a> <i>simulation</i>.<b>velocityDecay</b>([<i>decay</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _decay_ is specified, sets the velocity decay factor to the specified number in the range [0,1] and returns this simulation. If _decay_ is not specified, returns the current velocity decay factor, which defaults to 0.4. The decay factor is akin to atmospheric friction; after the application of any forces during a [tick](#simulation_tick), each node’s velocity is multiplied by 1 - _decay_. As with lowering the [alpha decay rate](#simulation_alphaDecay), less velocity decay may converge on a better solution, but risks numerical instabilities and oscillation.
 
-<a name="simulation_force" href="#simulation_force">#</a> <i>simulation</i>.<b>force</b>(<i>name</i>[, <i>force</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_force" href="#simulation_force">#</a> <i>simulation</i>.<b>force</b>(<i>name</i>[, <i>force</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _force_ is specified, assigns the [force](#forces) for the specified _name_ and returns this simulation. If _force_ is not specified, returns the force with the specified name, or undefined if there is no such force. (By default, new simulations have no forces.) For example, to create a new simulation to layout a graph, you might say:
 
@@ -151,15 +151,15 @@ To remove the force with the given _name_, pass null as the _force_. For example
 simulation.force("charge", null);
 ```
 
-<a name="simulation_find" href="#simulation_find">#</a> <i>simulation</i>.<b>find</b>(<i>x</i>[, <i>y</i>[, <i>z</i>]][, <i>radius</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_find" href="#simulation_find">#</a> <i>simulation</i>.<b>find</b>(<i>x</i>[, <i>y</i>[, <i>z</i>]][, <i>radius</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Returns the node closest to the position ⟨_x_,_y_,_z_⟩ with the given search _radius_. If _radius_ is not specified, it defaults to infinity. If there is no node within the search area, returns undefined.
 
-<a name="simulation_randomSource" href="#simulation_randomSource">#</a> <i>simulation</i>.<b>randomSource</b>([<i>source</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js))
+<a name="simulation_randomSource" href="#simulation_randomSource">#</a> <i>simulation</i>.<b>randomSource</b>([<i>source</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts))
 
 If _source_ is specified, sets the function used to generate random numbers; this should be a function that returns a number between 0 (inclusive) and 1 (exclusive). If _source_ is not specified, returns this simulation’s current random source which defaults to a fixed-seed [linear congruential generator](https://en.wikipedia.org/wiki/Linear_congruential_generator). See also [_random_.source](https://github.com/d3/d3-random/blob/master/README.md#random_source).
 
-<a name="simulation_on" href="#simulation_on">#</a> <i>simulation</i>.<b>on</b>(<i>typenames</i>, [<i>listener</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="simulation_on" href="#simulation_on">#</a> <i>simulation</i>.<b>on</b>(<i>typenames</i>, [<i>listener</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 If _listener_ is specified, sets the event _listener_ for the specified _typenames_ and returns this simulation. If an event listener was already registered for the same type and name, the existing listener is removed before the new listener is added. If _listener_ is null, removes the current event listeners for the specified _typenames_, if any. If _listener_ is not specified, returns the first currently-assigned listener matching the specified _typenames_, if any. When a specified event is dispatched, each _listener_ will be invoked with the `this` context as the simulation.
 
@@ -198,11 +198,11 @@ Simulations typically compose multiple forces as desired. This module provides s
 
 Forces may optionally implement [_force_.initialize](#force_initialize) to receive the simulation’s array of nodes.
 
-<a name="_force" href="#_force">#</a> <i>force</i>(<i>alpha</i>) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="_force" href="#_force">#</a> <i>force</i>(<i>alpha</i>) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Applies this force, optionally observing the specified _alpha_. Typically, the force is applied to the array of nodes previously passed to [_force_.initialize](#force_initialize), however, some forces may apply to a subset of nodes, or behave differently. For example, [d3.forceLink](#links) applies to the source and target of each link.
 
-<a name="force_initialize" href="#force_initialize">#</a> <i>force</i>.<b>initialize</b>(<i>nodes</i>, <i>random</i>, <i>numDimensions</i>) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/simulation.js)
+<a name="force_initialize" href="#force_initialize">#</a> <i>force</i>.<b>initialize</b>(<i>nodes</i>, <i>random</i>, <i>numDimensions</i>) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/simulation.ts)
 
 Supplies the array of _nodes_, _random_ source and _numDimensions_ to this force. This method is called when a force is bound to a simulation via [_simulation_.force](#simulation_force) and when the simulation’s nodes change via [_simulation_.nodes](#simulation_nodes). A force may perform necessary work during initialization, such as evaluating per-node parameters, to avoid repeatedly performing work during each application of the force.
 
@@ -210,23 +210,23 @@ Supplies the array of _nodes_, _random_ source and _numDimensions_ to this force
 
 The centering force translates nodes uniformly so that the mean position of all nodes (the center of mass if all nodes have equal weight) is at the given position ⟨[_x_](#center_x),[_y_](#center_y),[_z_](#center_z)⟩. This force modifies the positions of nodes on each application; it does not modify velocities, as doing so would typically cause the nodes to overshoot and oscillate around the desired center. This force helps keeps nodes in the center of the viewport, and unlike the [positioning force](#positioning), it does not distort their relative positions.
 
-<a name="forceCenter" href="#forceCenter">#</a> d3.<b>forceCenter</b>([<i>x</i>[, <i>y</i>[, <i>z</i>]]]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/center.js)
+<a name="forceCenter" href="#forceCenter">#</a> d3.<b>forceCenter</b>([<i>x</i>[, <i>y</i>[, <i>z</i>]]]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/center.ts)
 
 Creates a new centering force with the specified [_x_-](#center_x), [_y_-](#center_y) and [_z_-](#center_z) coordinates. If _x_, _y_ and _z_ are not specified, they default to ⟨0,0,0⟩.
 
-<a name="center_x" href="#center_x">#</a> <i>center</i>.<b>x</b>([<i>x</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/center.js)
+<a name="center_x" href="#center_x">#</a> <i>center</i>.<b>x</b>([<i>x</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/center.ts)
 
 If _x_ is specified, sets the _x_-coordinate of the centering position to the specified number and returns this force. If _x_ is not specified, returns the current _x_-coordinate, which defaults to zero.
 
-<a name="center_y" href="#center_y">#</a> <i>center</i>.<b>y</b>([<i>y</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/center.js)
+<a name="center_y" href="#center_y">#</a> <i>center</i>.<b>y</b>([<i>y</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/center.ts)
 
 If _y_ is specified, sets the _y_-coordinate of the centering position to the specified number and returns this force. If _y_ is not specified, returns the current _y_-coordinate, which defaults to zero.
 
-<a name="center_z" href="#center_z">#</a> <i>center</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/center.js)
+<a name="center_z" href="#center_z">#</a> <i>center</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/center.ts)
 
 If _z_ is specified, sets the _z_-coordinate of the centering position to the specified number and returns this force. If _z_ is not specified, returns the current _z_-coordinate, which defaults to zero.
 
-<a name="center_strength" href="#center_strength">#</a> <i>center</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/center.js), [Examples](https://observablehq.com/@d3/forcecenter-strength)
+<a name="center_strength" href="#center_strength">#</a> <i>center</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/center.ts), [Examples](https://observablehq.com/@d3/forcecenter-strength)
 
 If _strength_ is specified, sets the centering force’s strength. A reduced strength of e.g. 0.05 softens the movements on interactive graphs in which new nodes enter or exit the graph. If _strength_ is not specified, returns the force’s current strength, which defaults to 1.
 
@@ -234,11 +234,11 @@ If _strength_ is specified, sets the centering force’s strength. A reduced str
 
 The collision force treats nodes as lengths, circles or spheres (respectively for 1D, 2D or 3D) with a given [radius](#collide_radius), rather than points, and prevents nodes from overlapping. More formally, two nodes _a_ and _b_ are separated so that the distance between _a_ and _b_ is at least _radius_(_a_) + _radius_(_b_). To reduce jitter, this is by default a “soft” constraint with a configurable [strength](#collide_strength) and [iteration count](#collide_iterations).
 
-<a name="forceCollide" href="#forceCollide">#</a> d3.<b>forceCollide</b>([<i>radius</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/collide.js)
+<a name="forceCollide" href="#forceCollide">#</a> d3.<b>forceCollide</b>([<i>radius</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/collide.ts)
 
 Creates a new circle collision force with the specified [_radius_](#collide_radius). If _radius_ is not specified, it defaults to the constant one for all nodes.
 
-<a name="collide_radius" href="#collide_radius">#</a> <i>collide</i>.<b>radius</b>([<i>radius</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/collide.js)
+<a name="collide_radius" href="#collide_radius">#</a> <i>collide</i>.<b>radius</b>([<i>radius</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/collide.ts)
 
 If _radius_ is specified, sets the radius accessor to the specified number or function, re-evaluates the radius accessor for each node, and returns this force. If _radius_ is not specified, returns the current radius accessor, which defaults to:
 
@@ -250,13 +250,13 @@ function radius() {
 
 The radius accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the radius of each node is only recomputed when the force is initialized or when this method is called with a new _radius_, and not on every application of the force.
 
-<a name="collide_strength" href="#collide_strength">#</a> <i>collide</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/collide.js)
+<a name="collide_strength" href="#collide_strength">#</a> <i>collide</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/collide.ts)
 
 If _strength_ is specified, sets the force strength to the specified number in the range [0,1] and returns this force. If _strength_ is not specified, returns the current strength which defaults to 1.
 
 Overlapping nodes are resolved through iterative relaxation. For each node, the other nodes that are anticipated to overlap at the next tick (using the anticipated positions ⟨_x_ + _vx_,_y_ + _vy_,_z_ + _vz_⟩) are determined; the node’s velocity is then modified to push the node out of each overlapping node. The change in velocity is dampened by the force’s strength such that the resolution of simultaneous overlaps can be blended together to find a stable solution.
 
-<a name="collide_iterations" href="#collide_iterations">#</a> <i>collide</i>.<b>iterations</b>([<i>iterations</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/collide.js)
+<a name="collide_iterations" href="#collide_iterations">#</a> <i>collide</i>.<b>iterations</b>([<i>iterations</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/collide.ts)
 
 If _iterations_ is specified, sets the number of iterations per application to the specified number and returns this force. If _iterations_ is not specified, returns the current iteration count which defaults to 1. Increasing the number of iterations greatly increases the rigidity of the constraint and avoids partial overlap of nodes, but also increases the runtime cost to evaluate the force.
 
@@ -264,11 +264,11 @@ If _iterations_ is specified, sets the number of iterations per application to t
 
 The link force pushes linked nodes together or apart according to the desired [link distance](#link_distance). The strength of the force is proportional to the difference between the linked nodes’ distance and the target distance, similar to a spring force.
 
-<a name="forceLink" href="#forceLink">#</a> d3.<b>forceLink</b>([<i>links</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/link.js)
+<a name="forceLink" href="#forceLink">#</a> d3.<b>forceLink</b>([<i>links</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/link.ts)
 
 Creates a new link force with the specified _links_ and default parameters. If _links_ is not specified, it defaults to the empty array.
 
-<a name="link_links" href="#link_links">#</a> <i>link</i>.<b>links</b>([<i>links</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/link.js)
+<a name="link_links" href="#link_links">#</a> <i>link</i>.<b>links</b>([<i>links</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/link.ts)
 
 If _links_ is specified, sets the array of links associated with this force, recomputes the [distance](#link_distance) and [strength](#link_strength) parameters for each link, and returns this force. If _links_ is not specified, returns the current array of links, which defaults to the empty array.
 
@@ -282,7 +282,7 @@ For convenience, a link’s source and target properties may be initialized usin
 
 If the specified array of _links_ is modified, such as when links are added to or removed from the simulation, this method must be called again with the new (or changed) array to notify the force of the change; the force does not make a defensive copy of the specified array.
 
-<a name="link_id" href="#link_id">#</a> <i>link</i>.<b>id</b>([<i>id</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/link.js)
+<a name="link_id" href="#link_id">#</a> <i>link</i>.<b>id</b>([<i>id</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/link.ts)
 
 If _id_ is specified, sets the node id accessor to the specified function and returns this force. If _id_ is not specified, returns the current node id accessor, which defaults to the numeric _node_.index:
 
@@ -326,7 +326,7 @@ This is particularly useful when representing graphs in JSON, as JSON does not a
 
 The id accessor is invoked for each node whenever the force is initialized, as when the [nodes](#simulation_nodes) or [links](#link_links) change, being passed the node and its zero-based index.
 
-<a name="link_distance" href="#link_distance">#</a> <i>link</i>.<b>distance</b>([<i>distance</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/link.js)
+<a name="link_distance" href="#link_distance">#</a> <i>link</i>.<b>distance</b>([<i>distance</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/link.ts)
 
 If _distance_ is specified, sets the distance accessor to the specified number or function, re-evaluates the distance accessor for each link, and returns this force. If _distance_ is not specified, returns the current distance accessor, which defaults to:
 
@@ -338,7 +338,7 @@ function distance() {
 
 The distance accessor is invoked for each [link](#link_links), being passed the _link_ and its zero-based _index_. The resulting number is then stored internally, such that the distance of each link is only recomputed when the force is initialized or when this method is called with a new _distance_, and not on every application of the force.
 
-<a name="link_strength" href="#link_strength">#</a> <i>link</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/link.js)
+<a name="link_strength" href="#link_strength">#</a> <i>link</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/link.ts)
 
 If _strength_ is specified, sets the strength accessor to the specified number or function, re-evaluates the strength accessor for each link, and returns this force. If _strength_ is not specified, returns the current strength accessor, which defaults to:
 
@@ -352,7 +352,7 @@ Where _count_(_node_) is a function that returns the number of links with the gi
 
 The strength accessor is invoked for each [link](#link_links), being passed the _link_ and its zero-based _index_. The resulting number is then stored internally, such that the strength of each link is only recomputed when the force is initialized or when this method is called with a new _strength_, and not on every application of the force.
 
-<a name="link_iterations" href="#link_iterations">#</a> <i>link</i>.<b>iterations</b>([<i>iterations</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/link.js)
+<a name="link_iterations" href="#link_iterations">#</a> <i>link</i>.<b>iterations</b>([<i>iterations</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/link.ts)
 
 If _iterations_ is specified, sets the number of iterations per application to the specified number and returns this force. If _iterations_ is not specified, returns the current iteration count which defaults to 1. Increasing the number of iterations greatly increases the rigidity of the constraint and is useful for [complex structures such as lattices](https://observablehq.com/@d3/force-directed-lattice), but also increases the runtime cost to evaluate the force.
 
@@ -362,11 +362,11 @@ The many-body (or _n_-body) force applies mutually amongst all [nodes](#simulati
 
 Unlike links, which only affect two linked nodes, the charge force is global: every node affects every other node, even if they are on disconnected subgraphs.
 
-<a name="forceManyBody" href="#forceManyBody">#</a> d3.<b>forceManyBody</b>() · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/manyBody.js)
+<a name="forceManyBody" href="#forceManyBody">#</a> d3.<b>forceManyBody</b>() · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/manyBody.ts)
 
 Creates a new many-body force with the default parameters.
 
-<a name="manyBody_strength" href="#manyBody_strength">#</a> <i>manyBody</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/manyBody.js)
+<a name="manyBody_strength" href="#manyBody_strength">#</a> <i>manyBody</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/manyBody.ts)
 
 If _strength_ is specified, sets the strength accessor to the specified number or function, re-evaluates the strength accessor for each node, and returns this force. A positive value causes nodes to attract each other, similar to gravity, while a negative value causes nodes to repel each other, similar to electrostatic charge. If _strength_ is not specified, returns the current strength accessor, which defaults to:
 
@@ -378,17 +378,17 @@ function strength() {
 
 The strength accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the strength of each node is only recomputed when the force is initialized or when this method is called with a new _strength_, and not on every application of the force.
 
-<a name="manyBody_theta" href="#manyBody_theta">#</a> <i>manyBody</i>.<b>theta</b>([<i>theta</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/manyBody.js)
+<a name="manyBody_theta" href="#manyBody_theta">#</a> <i>manyBody</i>.<b>theta</b>([<i>theta</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/manyBody.ts)
 
 If _theta_ is specified, sets the Barnes–Hut approximation criterion to the specified number and returns this force. If _theta_ is not specified, returns the current value, which defaults to 0.9.
 
 To accelerate computation, this force implements the [Barnes–Hut approximation](http://en.wikipedia.org/wiki/Barnes–Hut_simulation) which takes O(_n_ log _n_) per application where _n_ is the number of [nodes](#simulation_nodes). For each application, a [binarytree](https://github.com/vasturiano/d3-binarytree), [quadtree](https://github.com/d3/d3-quadtree) or [octree](https://github.com/vasturiano/d3-octree) stores the current node positions; then for each node, the combined force of all other nodes on the given node is computed. For a cluster of nodes that is far away, the charge force can be approximated by treating the cluster as a single, larger node. The _theta_ parameter determines the accuracy of the approximation: if the ratio _w_ / _l_ of the width _w_ of the tree cell to the distance _l_ from the node to the cell’s center of mass is less than _theta_, all nodes in the given cell are treated as a single node rather than individually.
 
-<a name="manyBody_distanceMin" href="#manyBody_distanceMin">#</a> <i>manyBody</i>.<b>distanceMin</b>([<i>distance</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/manyBody.js)
+<a name="manyBody_distanceMin" href="#manyBody_distanceMin">#</a> <i>manyBody</i>.<b>distanceMin</b>([<i>distance</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/manyBody.ts)
 
 If _distance_ is specified, sets the minimum distance between nodes over which this force is considered. If _distance_ is not specified, returns the current minimum distance, which defaults to 1. A minimum distance establishes an upper bound on the strength of the force between two nearby nodes, avoiding instability. In particular, it avoids an infinitely-strong force if two nodes are exactly coincident; in this case, the direction of the force is random.
 
-<a name="manyBody_distanceMax" href="#manyBody_distanceMax">#</a> <i>manyBody</i>.<b>distanceMax</b>([<i>distance</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/manyBody.js)
+<a name="manyBody_distanceMax" href="#manyBody_distanceMax">#</a> <i>manyBody</i>.<b>distanceMax</b>([<i>distance</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/manyBody.ts)
 
 If _distance_ is specified, sets the maximum distance between nodes over which this force is considered. If _distance_ is not specified, returns the current maximum distance, which defaults to infinity. Specifying a finite maximum distance improves performance and produces a more localized layout.
 
@@ -396,11 +396,11 @@ If _distance_ is specified, sets the maximum distance between nodes over which t
 
 The [_x_](#forceX)-, [_y_](#forceY)- and [_z_](#forceZ)-positioning forces push nodes towards a desired position along the given dimension with a configurable strength. The [_radial_](#forceRadial) force is similar, except it pushes nodes towards the closest point on a given circle/sphere. The strength of the force is proportional to the one-dimensional distance between the node’s position and the target position. While these forces can be used to position individual nodes, they are intended primarily for global forces that apply to all (or most) nodes.
 
-<a name="forceX" href="#forceX">#</a> d3.<b>forceX</b>([<i>x</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/x.js)
+<a name="forceX" href="#forceX">#</a> d3.<b>forceX</b>([<i>x</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/x.ts)
 
 Creates a new positioning force along the _x_-axis towards the given position [_x_](#x_x). If _x_ is not specified, it defaults to 0.
 
-<a name="x_strength" href="#x_strength">#</a> <i>x</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/x.js)
+<a name="x_strength" href="#x_strength">#</a> <i>x</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/x.ts)
 
 If _strength_ is specified, sets the strength accessor to the specified number or function, re-evaluates the strength accessor for each node, and returns this force. The _strength_ determines how much to increment the node’s _x_-velocity: ([_x_](#x_x) - _node_.x) × _strength_. For example, a value of 0.1 indicates that the node should move a tenth of the way from its current _x_-position to the target _x_-position with each application. Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints. A value outside the range [0,1] is not recommended.
 
@@ -414,7 +414,7 @@ function strength() {
 
 The strength accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the strength of each node is only recomputed when the force is initialized or when this method is called with a new _strength_, and not on every application of the force.
 
-<a name="x_x" href="#x_x">#</a> <i>x</i>.<b>x</b>([<i>x</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/x.js)
+<a name="x_x" href="#x_x">#</a> <i>x</i>.<b>x</b>([<i>x</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/x.ts)
 
 If _x_ is specified, sets the _x_-coordinate accessor to the specified number or function, re-evaluates the _x_-accessor for each node, and returns this force. If _x_ is not specified, returns the current _x_-accessor, which defaults to:
 
@@ -426,11 +426,11 @@ function x() {
 
 The _x_-accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the target _x_-coordinate of each node is only recomputed when the force is initialized or when this method is called with a new _x_, and not on every application of the force.
 
-<a name="forceY" href="#forceY">#</a> d3.<b>forceY</b>([<i>y</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/y.js)
+<a name="forceY" href="#forceY">#</a> d3.<b>forceY</b>([<i>y</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/y.ts)
 
 Creates a new positioning force along the _y_-axis towards the given position [_y_](#y_y). If _y_ is not specified, it defaults to 0.
 
-<a name="y_strength" href="#y_strength">#</a> <i>y</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/y.js)
+<a name="y_strength" href="#y_strength">#</a> <i>y</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/y.ts)
 
 If _strength_ is specified, sets the strength accessor to the specified number or function, re-evaluates the strength accessor for each node, and returns this force. The _strength_ determines how much to increment the node’s _y_-velocity: ([_y_](#y_y) - _node_.y) × _strength_. For example, a value of 0.1 indicates that the node should move a tenth of the way from its current _y_-position to the target _y_-position with each application. Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints. A value outside the range [0,1] is not recommended.
 
@@ -444,7 +444,7 @@ function strength() {
 
 The strength accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the strength of each node is only recomputed when the force is initialized or when this method is called with a new _strength_, and not on every application of the force.
 
-<a name="y_y" href="#y_y">#</a> <i>y</i>.<b>y</b>([<i>y</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/y.js)
+<a name="y_y" href="#y_y">#</a> <i>y</i>.<b>y</b>([<i>y</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/y.ts)
 
 If _y_ is specified, sets the _y_-coordinate accessor to the specified number or function, re-evaluates the _y_-accessor for each node, and returns this force. If _y_ is not specified, returns the current _y_-accessor, which defaults to:
 
@@ -456,11 +456,11 @@ function y() {
 
 The _y_-accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the target _y_-coordinate of each node is only recomputed when the force is initialized or when this method is called with a new _y_, and not on every application of the force.
 
-<a name="forceZ" href="#forceZ">#</a> d3.<b>forceZ</b>([<i>z</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/z.js)
+<a name="forceZ" href="#forceZ">#</a> d3.<b>forceZ</b>([<i>z</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/z.ts)
 
 Creates a new positioning force along the _z_-axis towards the given position [_z_](#z_z). If _z_ is not specified, it defaults to 0.
 
-<a name="z_strength" href="#z_strength">#</a> <i>z</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/z.js)
+<a name="z_strength" href="#z_strength">#</a> <i>z</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/z.ts)
 
 If _strength_ is specified, sets the strength accessor to the specified number or function, re-evaluates the strength accessor for each node, and returns this force. The _strength_ determines how much to increment the node’s _z_-velocity: ([_z_](#z_z) - _node_.z) × _strength_. For example, a value of 0.1 indicates that the node should move a tenth of the way from its current _z_-position to the target _z_-position with each application. Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints. A value outside the range [0,1] is not recommended.
 
@@ -474,7 +474,7 @@ function strength() {
 
 The strength accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the strength of each node is only recomputed when the force is initialized or when this method is called with a new _strength_, and not on every application of the force.
 
-<a name="z_z" href="#z_z">#</a> <i>z</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/z.js)
+<a name="z_z" href="#z_z">#</a> <i>z</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/z.ts)
 
 If _z_ is specified, sets the _z_-coordinate accessor to the specified number or function, re-evaluates the _z_-accessor for each node, and returns this force. If _z_ is not specified, returns the current _z_-accessor, which defaults to:
 
@@ -486,13 +486,13 @@ function z() {
 
 The _z_-accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the target _z_-coordinate of each node is only recomputed when the force is initialized or when this method is called with a new _z_, and not on every application of the force.
 
-<a name="forceRadial" href="#forceRadial">#</a> d3.<b>forceRadial</b>(<i>radius</i>[, <i>x</i>][, <i>y</i>][, <i>z</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)
+<a name="forceRadial" href="#forceRadial">#</a> d3.<b>forceRadial</b>(<i>radius</i>[, <i>x</i>][, <i>y</i>][, <i>z</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/radial.ts)
 
 [<img alt="Radial Force" src="https://raw.githubusercontent.com/vasturiano/d3-force-3d/master/img/radial.png" width="420" height="219">](https://bl.ocks.org/mbostock/cd98bf52e9067e26945edd95e8cf6ef9)[<img alt="Radial Force 3D" src="https://raw.githubusercontent.com/vasturiano/d3-force-3d/master/img/radial3d.png" height="219">](https://observablehq.com/@vasturiano/3d-radial-force)
 
 Creates a new positioning force towards a circle or sphere of the specified [_radius_](#radial_radius) centered at ⟨[_x_](#radial_x),[_y_](#radial_y),[_z_](#radial_z)⟩. If _x_, _y_ and _z_ are not specified, they default to ⟨0,0,0⟩.
 
-<a name="radial_strength" href="#radial_strength">#</a> <i>radial</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)
+<a name="radial_strength" href="#radial_strength">#</a> <i>radial</i>.<b>strength</b>([<i>strength</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/radial.ts)
 
 If _strength_ is specified, sets the strength accessor to the specified number or function, re-evaluates the strength accessor for each node, and returns this force. The _strength_ determines how much to increment the node’s _x_-, _y_ and _z_-velocity. For example, a value of 0.1 indicates that the node should move a tenth of the way from its current position to the closest point on the sphere perimeter with each application. Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints. A value outside the range [0,1] is not recommended.
 
@@ -506,20 +506,20 @@ function strength() {
 
 The strength accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the strength of each node is only recomputed when the force is initialized or when this method is called with a new _strength_, and not on every application of the force.  
 
-<a name="radial_radius" href="#radial_radius">#</a> <i>radial</i>.<b>radius</b>([<i>radius</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)  
+<a name="radial_radius" href="#radial_radius">#</a> <i>radial</i>.<b>radius</b>([<i>radius</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/radial.ts)  
 
 If _radius_ is specified, sets the circle _radius_ to the specified number or function, re-evaluates the _radius_ accessor for each node, and returns this force. If _radius_ is not specified, returns the current _radius_ accessor.
 
 The _radius_ accessor is invoked for each [node](#simulation_nodes) in the simulation, being passed the _node_ and its zero-based _index_. The resulting number is then stored internally, such that the target radius of each node is only recomputed when the force is initialized or when this method is called with a new _radius_, and not on every application of the force.
 
-<a name="radial_x" href="#radial_x">#</a> <i>radial</i>.<b>x</b>([<i>x</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)
+<a name="radial_x" href="#radial_x">#</a> <i>radial</i>.<b>x</b>([<i>x</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/radial.ts)
 
 If _x_ is specified, sets the _x_-coordinate of the sphere center to the specified number and returns this force. If _x_ is not specified, returns the current _x_-coordinate of the center, which defaults to zero.
 
-<a name="radial_y" href="#radial_y">#</a> <i>radial</i>.<b>y</b>([<i>y</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)
+<a name="radial_y" href="#radial_y">#</a> <i>radial</i>.<b>y</b>([<i>y</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/radial.ts)
 
 If _y_ is specified, sets the _y_-coordinate of the sphere center to the specified number and returns this force. If _y_ is not specified, returns the current _y_-coordinate of the center, which defaults to zero.
 
-<a name="radial_z" href="#radial_z">#</a> <i>radial</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)  
+<a name="radial_z" href="#radial_z">#</a> <i>radial</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/bottd/d3-force-3d-ts/blob/main/src/radial.ts)  
 
 If _z_ is specified, sets the _z_-coordinate of the sphere center to the specified number and returns this force. If _z_ is not specified, returns the current _z_-coordinate of the center, which defaults to zero. 
