@@ -30,9 +30,7 @@
     }
   ],
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "module": "./dist/d3-force-3d-ts.js",
   "main": "./dist/d3-force-3d-ts.js",
   "types": "./dist/index.d.ts",
@@ -51,10 +49,13 @@
     "d3-timer": "1 - 3"
   },
   "devDependencies": {
+    "@types/d3-dispatch": "3.0.7",
+    "@types/d3-quadtree": "3.0.6",
+    "@types/d3-timer": "3.0.2",
     "eslint": "10.1.0",
     "typescript": "6.0.2",
     "vite": "8.0.3",
-    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-dts": "4.5.4",
     "vitest": "4.1.2"
   },
   "scripts": {

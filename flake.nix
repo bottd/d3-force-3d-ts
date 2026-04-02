@@ -22,6 +22,7 @@
           programs = {
             prettier = {
               enable = true;
+              package = pkgs.prettier;
               includes = [ "*.js" "*.ts" "*.json" "*.md" "*.yaml" "*.yml" ];
             };
             nixpkgs-fmt.enable = true;
