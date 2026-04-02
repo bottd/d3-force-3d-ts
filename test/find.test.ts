@@ -1,5 +1,4 @@
-import assert from "assert";
-import { forceSimulation } from "../src/index.js";
+import { forceSimulation } from "../src/index";
 
 it("simulation.find finds a node", () => {
   const f = forceSimulation().stop();

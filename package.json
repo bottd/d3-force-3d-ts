@@ -30,7 +30,9 @@
     }
   ],
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "module": "./dist/d3-force-3d-ts.js",
   "main": "./dist/d3-force-3d-ts.js",
   "types": "./dist/index.d.ts",

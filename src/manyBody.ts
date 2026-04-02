@@ -1,5 +1,7 @@
+// @ts-expect-error untyped d3 lib
 import { binarytree } from "d3-binarytree";
 import { quadtree } from "d3-quadtree";
+// @ts-expect-error untyped d3 lib
 import { octree } from "d3-octree";
 import jiggle from "./jiggle";
 import { x as simX, y as simY, z as simZ } from "./simulation";

@@ -1,10 +1,14 @@
 import assert from "assert";
-import { forceSimulation } from "../src/index.js";
-import { assertNodeEqual } from "./asserts.js";
+import { forceSimulation } from "../src/index";
+import { assertNodeEqual } from "./asserts";
 
 it("forceSimulation() returns a simulation", () => {
   const f = forceSimulation().stop();
-  assert.deepStrictEqual(Object.keys(f).sort(), [
+  const proto = Object.getPrototypeOf(f);
+  const methods = Object.getOwnPropertyNames(proto)
+    .filter((m) => m !== "constructor" && typeof proto[m] === "function")
+    .sort();
+  assert.deepStrictEqual(methods, [
     "alpha",
     "alphaDecay",
     "alphaMin",

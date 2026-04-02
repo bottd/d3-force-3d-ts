@@ -32,14 +32,7 @@ export function resolve(
     : +accessor;
 }
 
-export abstract class Force {
-  abstract initialize(
-    nodes: SimNode[],
-    random: () => number,
-    nDim: number,
-  ): void;
-  abstract apply(alpha: number): void;
-
+export class D3Accessor {
   protected accessor<T>(
     current: T,
     value: T | undefined,
@@ -49,6 +42,15 @@ export abstract class Force {
     set(value);
     return this;
   }
+}
+
+export abstract class Force extends D3Accessor {
+  abstract initialize(
+    nodes: SimNode[],
+    random: () => number,
+    nDim: number,
+  ): void;
+  abstract apply(alpha: number): void;
 }
 
 export function coerce(value: Accessor<number>): Accessor<number> {

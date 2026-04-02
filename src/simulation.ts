@@ -1,7 +1,7 @@
 import { dispatch } from "d3-dispatch";
 import { timer } from "d3-timer";
 import lcg from "./lcg";
-import { Force, type Accessors, type SimNode } from "./force";
+import { D3Accessor, Force, type SimNode } from "./force";
 
 const MAX_DIMENSIONS = 3;
 
@@ -19,21 +19,7 @@ const initialRadius = 10;
 const initialAngleRoll = Math.PI * (3 - Math.sqrt(5));
 const initialAngleYaw = (Math.PI * 20) / (9 + Math.sqrt(221));
 
-export interface Simulation
-  extends Accessors<
-      Simulation,
-      number,
-      | "alpha"
-      | "alphaMin"
-      | "alphaDecay"
-      | "alphaTarget"
-      | "velocityDecay"
-      | "numDimensions"
-    >,
-    Accessors<Simulation, SimNode[], "nodes">,
-    Accessors<Simulation, () => number, "randomSource"> {}
-
-export class Simulation {
+export class Simulation extends D3Accessor {
   #alpha = 1;
   #alphaMin = 0.001;
   #alphaDecay = 1 - 0.001 ** (1 / 300);
@@ -44,9 +30,13 @@ export class Simulation {
   #random: () => number = lcg();
   #forces = new Map<string, Force>();
   #stepper: any;
-  #event = dispatch("tick", "end");
+  #event = dispatch<object, Record<"tick" | "end", any[]>, "tick" | "end">(
+    "tick",
+    "end",
+  );
 
   constructor(nodes: SimNode[] = [], numDimensions = 2) {
+    super();
     this.#nDim = Math.min(
       MAX_DIMENSIONS,
       Math.max(1, Math.round(numDimensions)),
@@ -114,55 +104,68 @@ export class Simulation {
     return this;
   }
 
-  private accessor<T>(
-    current: T,
-    value: T | undefined,
-    set: (v: T) => void,
-  ): T | this {
-    if (value === undefined) return current;
-    set(value);
-    return this;
-  }
-
-  numDimensions(value?: number): any {
+  numDimensions(): number;
+  numDimensions(value: number): this;
+  numDimensions(value?: number) {
     return this.accessor(this.#nDim, value, (v) => {
       this.#nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(v)));
       this.#forces.forEach((f) => this.#initializeForce(f));
     });
   }
-  nodes(value?: SimNode[]): any {
+
+  nodes(): SimNode[];
+  nodes(value: SimNode[]): this;
+  nodes(value?: SimNode[]) {
     return this.accessor(this.#nodes, value, (v) => {
       this.#nodes = v;
       this.#initializeNodes();
       this.#forces.forEach((f) => this.#initializeForce(f));
     });
   }
-  alpha(value?: number): any {
+
+  alpha(): number;
+  alpha(value: number): this;
+  alpha(value?: number) {
     return this.accessor(this.#alpha, value, (v) => {
       this.#alpha = +v;
     });
   }
-  alphaMin(value?: number): any {
+
+  alphaMin(): number;
+  alphaMin(value: number): this;
+  alphaMin(value?: number) {
     return this.accessor(this.#alphaMin, value, (v) => {
       this.#alphaMin = +v;
     });
   }
-  alphaDecay(value?: number): any {
+
+  alphaDecay(): number;
+  alphaDecay(value: number): this;
+  alphaDecay(value?: number) {
     return this.accessor(this.#alphaDecay, value, (v) => {
       this.#alphaDecay = +v;
     });
   }
-  alphaTarget(value?: number): any {
+
+  alphaTarget(): number;
+  alphaTarget(value: number): this;
+  alphaTarget(value?: number) {
     return this.accessor(this.#alphaTarget, value, (v) => {
       this.#alphaTarget = +v;
     });
   }
-  velocityDecay(value?: number): any {
+
+  velocityDecay(): number;
+  velocityDecay(value: number): this;
+  velocityDecay(value?: number) {
     return this.accessor(1 - this.#damping, value, (v) => {
       this.#damping = 1 - v;
     });
   }
-  randomSource(value?: () => number): any {
+
+  randomSource(): () => number;
+  randomSource(value: () => number): this;
+  randomSource(value?: () => number) {
     return this.accessor(this.#random, value, (v) => {
       this.#random = v;
       this.#forces.forEach((f) => this.#initializeForce(f));
@@ -207,11 +210,15 @@ export class Simulation {
     return closest;
   }
 
-  on(name: string): any;
-  on(name: string, listener: any): this;
-  on(name: string, listener?: any): any | this {
-    if (listener === undefined) return this.#event.on(name);
-    this.#event.on(name, listener);
+  on(name: "tick" | "end"): ((this: Simulation) => void) | undefined;
+  on(name: "tick" | "end", listener: ((this: Simulation) => void) | null): this;
+  on(
+    name: "tick" | "end",
+    listener?: ((this: Simulation) => void) | null,
+  ): ((this: Simulation) => void) | undefined | this {
+    if (listener === undefined)
+      return this.#event.on(name) as ((this: Simulation) => void) | undefined;
+    this.#event.on(name, listener as ((this: object) => void) | null);
     return this;
   }
 

@@ -1,5 +1,5 @@
-import { forceCenter, forceSimulation } from "../src/index.js";
-import { assertNodeEqual } from "./asserts.js";
+import { forceCenter, forceSimulation } from "../src/index";
+import { assertNodeEqual } from "./asserts";
 
 it("forceCenter repositions nodes", () => {
   const center = forceCenter(0, 0);

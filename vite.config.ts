@@ -13,6 +13,7 @@ const d3Externals = Object.keys(meta.peerDependencies || {}).filter((key) =>
 export default defineConfig({
   test: {
     globals: true,
+    include: ["test/**/*.test.ts"],
   },
   plugins: [
     dts({

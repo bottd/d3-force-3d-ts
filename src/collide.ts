@@ -1,5 +1,7 @@
+// @ts-expect-error untyped d3 lib
 import { binarytree } from "d3-binarytree";
 import { quadtree } from "d3-quadtree";
+// @ts-expect-error untyped d3 lib
 import { octree } from "d3-octree";
 import jiggle from "./jiggle";
 import {
@@ -104,9 +106,9 @@ export class CollideForce extends Force {
       const x0 = arg1,
         y0 = arg2,
         z0 = arg3,
-        x1 = nDim === 1 ? arg2 : arg4,
-        y1 = nDim === 1 ? arg3 : arg5,
-        z1 = nDim === 1 ? arg4 : arg6;
+        x1 = nDim === 1 ? arg2 : nDim === 2 ? arg3 : arg4,
+        y1 = nDim === 1 ? arg3 : nDim === 2 ? arg4 : arg5,
+        z1 = nDim === 1 ? arg4 : nDim === 2 ? arg5 : arg6;
 
       const data = treeNode.data,
         rj = treeNode.r,

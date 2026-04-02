@@ -1,6 +1,6 @@
 import assert from "assert";
-import { forceCollide, forceSimulation } from "../src/index.js";
-import { assertNodeEqual } from "./asserts.js";
+import { forceCollide, forceSimulation } from "../src/index";
+import { assertNodeEqual } from "./asserts";
 
 it("forceCollide collides nodes", () => {
   const collide = forceCollide(1);
