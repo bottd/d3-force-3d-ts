@@ -7,5 +7,5 @@ export { default as forceSimulation, Simulation } from "./simulation";
 export { default as forceX, XForce } from "./x";
 export { default as forceY, YForce } from "./y";
 export { default as forceZ, ZForce } from "./z";
-export { Force } from "./force";
-export type { Accessor, Accessors, SimNode } from "./force";
+export { Force, SimNode } from "./force";
+export type { Accessor, Accessors } from "./force";

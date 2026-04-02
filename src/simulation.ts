@@ -1,7 +1,7 @@
 import { dispatch } from "d3-dispatch";
 import { timer } from "d3-timer";
 import lcg from "./lcg";
-import { D3Accessor, Force, type SimNode } from "./force";
+import { D3Accessor, Force, SimNode } from "./force";
 
 const MAX_DIMENSIONS = 3;
 
@@ -26,7 +26,7 @@ export class Simulation extends D3Accessor {
   #alphaTarget = 0;
   #damping = 0.6;
   #nDim: number;
-  #nodes: SimNode[];
+  #nodes!: SimNode[];
   #random: () => number = lcg();
   #forces = new Map<string, Force>();
   #stepper: any;
@@ -35,14 +35,13 @@ export class Simulation extends D3Accessor {
     "end",
   );
 
-  constructor(nodes: SimNode[] = [], numDimensions = 2) {
+  constructor(nodes: Partial<SimNode>[] = [], numDimensions = 2) {
     super();
     this.#nDim = Math.min(
       MAX_DIMENSIONS,
       Math.max(1, Math.round(numDimensions)),
     );
-    this.#nodes = nodes;
-    this.#initializeNodes();
+    this.#initializeNodes(nodes);
     this.#stepper = timer(() => this.#step());
   }
 
@@ -114,13 +113,12 @@ export class Simulation extends D3Accessor {
   }
 
   nodes(): SimNode[];
-  nodes(value: SimNode[]): this;
-  nodes(value?: SimNode[]) {
-    return this.accessor(this.#nodes, value, (v) => {
-      this.#nodes = v;
-      this.#initializeNodes();
-      this.#forces.forEach((f) => this.#initializeForce(f));
-    });
+  nodes(value: Partial<SimNode>[]): this;
+  nodes(value?: Partial<SimNode>[]) {
+    if (value === undefined) return this.#nodes;
+    this.#initializeNodes(value);
+    this.#forces.forEach((f) => this.#initializeForce(f));
+    return this;
   }
 
   alpha(): number;
@@ -222,7 +220,11 @@ export class Simulation extends D3Accessor {
     return this;
   }
 
-  #initializeNodes() {
+  #initializeNodes(incoming?: Partial<SimNode>[]) {
+    if (incoming) {
+      for (let i = 0; i < incoming.length; ++i) SimNode.init(incoming[i]);
+      this.#nodes = incoming as SimNode[];
+    }
     const nodes = this.#nodes;
     const nDim = this.#nDim;
     for (let i = 0, n = nodes.length; i < n; ++i) {
@@ -253,15 +255,6 @@ export class Simulation extends D3Accessor {
           node.z = radius * Math.sin(rollAngle) * Math.sin(yawAngle);
         }
       }
-      if (
-        isNaN(node.vx) ||
-        (nDim > 1 && isNaN(node.vy)) ||
-        (nDim > 2 && isNaN(node.vz))
-      ) {
-        node.vx = 0;
-        if (nDim > 1) node.vy = 0;
-        if (nDim > 2) node.vz = 0;
-      }
     }
   }
 
@@ -271,7 +264,7 @@ export class Simulation extends D3Accessor {
 }
 
 export default function forceSimulation(
-  nodes: SimNode[] = [],
+  nodes: Partial<SimNode>[] = [],
   numDimensions = 2,
 ) {
   return new Simulation(nodes, numDimensions);

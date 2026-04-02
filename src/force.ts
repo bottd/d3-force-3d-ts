@@ -1,15 +1,25 @@
-export interface SimNode {
-  index: number;
-  x: number;
-  y: number;
-  z: number;
-  vx: number;
-  vy: number;
-  vz: number;
-  fx?: number | null;
-  fy?: number | null;
-  fz?: number | null;
+export class SimNode {
+  declare index: number;
+  declare x: number;
+  declare y: number;
+  declare z: number;
+  declare vx: number;
+  declare vy: number;
+  declare vz: number;
+  declare fx?: number | null;
+  declare fy?: number | null;
+  declare fz?: number | null;
   [key: string]: any;
+
+  static init<T extends Partial<SimNode>>(obj: T): SimNode & T {
+    obj.x ??= NaN;
+    obj.y ??= NaN;
+    obj.z ??= NaN;
+    obj.vx ||= 0;
+    obj.vy ||= 0;
+    obj.vz ||= 0;
+    return obj as SimNode & T;
+  }
 }
 
 export type Accessor<T> = T | ((...args: any[]) => T);
