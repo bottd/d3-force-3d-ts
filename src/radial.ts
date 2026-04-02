@@ -1,80 +1,102 @@
-import constant from "./constant.js";
+import {
+  Force,
+  coerce,
+  resolve,
+  type Accessor,
+  type Accessors,
+  type SimNode,
+} from "./force";
 
-export default function (radius, x, y, z) {
-  var nodes,
-    nDim,
-    strength = constant(0.1),
-    strengths,
-    radiuses;
+export interface RadialForce
+  extends Accessors<RadialForce, number, "x" | "y" | "z">,
+    Accessors<RadialForce, Accessor<number>, "radius" | "strength"> {}
 
-  if (typeof radius !== "function") radius = constant(+radius);
-  if (x == null) x = 0;
-  if (y == null) y = 0;
-  if (z == null) z = 0;
+export class RadialForce extends Force {
+  #x: number;
+  #y: number;
+  #z: number;
+  #radius: Accessor<number>;
+  #strength: Accessor<number> = 0.1;
+  #nodes: SimNode[] = [];
+  #nDim = 2;
+  #strengths: number[] = [];
+  #radiuses: number[] = [];
 
-  function force(alpha) {
-    for (var i = 0, n = nodes.length; i < n; ++i) {
-      var node = nodes[i],
-        dx = node.x - x || 1e-6,
-        dy = (node.y || 0) - y || 1e-6,
-        dz = (node.z || 0) - z || 1e-6,
-        r = Math.sqrt(dx * dx + dy * dy + dz * dz),
-        k = ((radiuses[i] - r) * strengths[i] * alpha) / r;
+  constructor(radius: Accessor<number>, x = 0, y = 0, z = 0) {
+    super();
+    this.#radius = radius;
+    this.#x = x;
+    this.#y = y;
+    this.#z = z;
+  }
+
+  initialize(nodes: SimNode[], _random: () => number, nDim = 2) {
+    this.#nodes = nodes;
+    this.#nDim = nDim;
+    this.#recompute();
+  }
+
+  #recompute() {
+    if (!this.#nodes.length) return;
+    const n = this.#nodes.length;
+    this.#radiuses = new Array(n);
+    this.#strengths = new Array(n);
+    for (let i = 0; i < n; ++i) {
+      this.#radiuses[i] = resolve(this.#radius, this.#nodes[i], i, this.#nodes);
+      this.#strengths[i] = isNaN(this.#radiuses[i])
+        ? 0
+        : resolve(this.#strength, this.#nodes[i], i, this.#nodes);
+    }
+  }
+
+  apply(alpha: number) {
+    for (let i = 0, n = this.#nodes.length; i < n; ++i) {
+      const node = this.#nodes[i];
+      const dx = node.x - this.#x || 1e-6;
+      const dy = (node.y || 0) - this.#y || 1e-6;
+      const dz = (node.z || 0) - this.#z || 1e-6;
+      const r = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      const k = ((this.#radiuses[i] - r) * this.#strengths[i] * alpha) / r;
       node.vx += dx * k;
-      if (nDim > 1) {
-        node.vy += dy * k;
-      }
-      if (nDim > 2) {
-        node.vz += dz * k;
-      }
+      if (this.#nDim > 1) node.vy += dy * k;
+      if (this.#nDim > 2) node.vz += dz * k;
     }
   }
 
-  function initialize() {
-    if (!nodes) return;
-    var i,
-      n = nodes.length;
-    strengths = new Array(n);
-    radiuses = new Array(n);
-    for (i = 0; i < n; ++i) {
-      radiuses[i] = +radius(nodes[i], i, nodes);
-      strengths[i] = isNaN(radiuses[i]) ? 0 : +strength(nodes[i], i, nodes);
-    }
+  radius(value?: Accessor<number>): any {
+    return this.accessor(this.#radius, value, (v) => {
+      this.#radius = coerce(v);
+      this.#recompute();
+    });
   }
+  strength(value?: Accessor<number>): any {
+    return this.accessor(this.#strength, value, (v) => {
+      this.#strength = coerce(v);
+      this.#recompute();
+    });
+  }
+  x(value?: number): any {
+    return this.accessor(this.#x, value, (v) => {
+      this.#x = +v;
+    });
+  }
+  y(value?: number): any {
+    return this.accessor(this.#y, value, (v) => {
+      this.#y = +v;
+    });
+  }
+  z(value?: number): any {
+    return this.accessor(this.#z, value, (v) => {
+      this.#z = +v;
+    });
+  }
+}
 
-  force.initialize = function (initNodes, ...args) {
-    nodes = initNodes;
-    nDim = args.find((arg) => [1, 2, 3].includes(arg)) || 2;
-    initialize();
-  };
-
-  force.strength = function (_) {
-    return arguments.length
-      ? ((strength = typeof _ === "function" ? _ : constant(+_)),
-        initialize(),
-        force)
-      : strength;
-  };
-
-  force.radius = function (_) {
-    return arguments.length
-      ? ((radius = typeof _ === "function" ? _ : constant(+_)),
-        initialize(),
-        force)
-      : radius;
-  };
-
-  force.x = function (_) {
-    return arguments.length ? ((x = +_), force) : x;
-  };
-
-  force.y = function (_) {
-    return arguments.length ? ((y = +_), force) : y;
-  };
-
-  force.z = function (_) {
-    return arguments.length ? ((z = +_), force) : z;
-  };
-
-  return force;
+export default function forceRadial(
+  radius: Accessor<number>,
+  x = 0,
+  y = 0,
+  z = 0,
+) {
+  return new RadialForce(radius, x, y, z);
 }

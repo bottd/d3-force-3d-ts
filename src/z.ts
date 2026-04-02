@@ -1,50 +1,66 @@
-import constant from "./constant.js";
+import {
+  Force,
+  coerce,
+  resolve,
+  type Accessor,
+  type Accessors,
+  type SimNode,
+} from "./force";
 
-export default function (z) {
-  var strength = constant(0.1),
-    nodes,
-    strengths,
-    zz;
+export interface ZForce
+  extends Accessors<ZForce, Accessor<number>, "z" | "strength"> {}
 
-  if (typeof z !== "function") z = constant(z == null ? 0 : +z);
+export class ZForce extends Force {
+  #z: Accessor<number>;
+  #strength: Accessor<number> = 0.1;
+  #nodes: SimNode[] = [];
+  #strengths: number[] = [];
+  #zz: number[] = [];
 
-  function force(alpha) {
-    for (var i = 0, n = nodes.length, node; i < n; ++i) {
-      ((node = nodes[i]), (node.vz += (zz[i] - node.z) * strengths[i] * alpha));
-    }
+  constructor(z: Accessor<number> = 0) {
+    super();
+    this.#z = z;
   }
 
-  function initialize() {
-    if (!nodes) return;
-    var i,
-      n = nodes.length;
-    strengths = new Array(n);
-    zz = new Array(n);
-    for (i = 0; i < n; ++i) {
-      strengths[i] = isNaN((zz[i] = +z(nodes[i], i, nodes)))
+  initialize(nodes: SimNode[]) {
+    this.#nodes = nodes;
+    this.#recompute();
+  }
+
+  #recompute() {
+    if (!this.#nodes.length) return;
+    const n = this.#nodes.length;
+    this.#strengths = new Array(n);
+    this.#zz = new Array(n);
+    for (let i = 0; i < n; ++i) {
+      this.#zz[i] = resolve(this.#z, this.#nodes[i], i, this.#nodes);
+      this.#strengths[i] = isNaN(this.#zz[i])
         ? 0
-        : +strength(nodes[i], i, nodes);
+        : resolve(this.#strength, this.#nodes[i], i, this.#nodes);
     }
   }
 
-  force.initialize = function (_) {
-    nodes = _;
-    initialize();
-  };
+  apply(alpha: number) {
+    for (let i = 0, n = this.#nodes.length; i < n; ++i) {
+      const node = this.#nodes[i];
+      node.vz += (this.#zz[i] - node.z) * this.#strengths[i] * alpha;
+    }
+  }
 
-  force.strength = function (_) {
-    return arguments.length
-      ? ((strength = typeof _ === "function" ? _ : constant(+_)),
-        initialize(),
-        force)
-      : strength;
-  };
+  z(value?: Accessor<number>): any {
+    return this.accessor(this.#z, value, (v) => {
+      this.#z = coerce(v);
+      this.#recompute();
+    });
+  }
+  strength(value?: Accessor<number>): any {
+    return this.accessor(this.#strength, value, (v) => {
+      this.#strength = coerce(v);
+      this.#recompute();
+    });
+  }
+}
 
-  force.z = function (_) {
-    return arguments.length
-      ? ((z = typeof _ === "function" ? _ : constant(+_)), initialize(), force)
-      : z;
-  };
-
-  return force;
+export default function forceZ(z: Accessor<number> = 0) {
+  return new ZForce(z);
 }
