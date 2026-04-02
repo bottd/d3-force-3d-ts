@@ -1,8 +1,7 @@
-# d3-force-3d
+# d3-force-3d-ts
 
-[![NPM package][npm-img]][npm-url]
-[![Build Size][build-size-img]][build-size-url]
-[![NPM Downloads][npm-downloads-img]][npm-downloads-url]
+> [!NOTE]
+> This is a TypeScript translation of [vasturiano/d3-force-3d](https://github.com/vasturiano/d3-force-3d). No new features added, just my toolchain of choice.
 
 Extended version of [d3-force](https://github.com/d3/d3-force) to support other dimensions besides 2D, via the method [_numDimensions_](#simulation_numDimensions), supporting the values 1, 2 or 3 (default to 2). Fully backwards compatible with [d3-force](https://github.com/d3/d3-force) (version [3.0.0](https://github.com/d3/d3-force/tree/v3.0.0)), and should just work as a drop-in replacement d3 module.
 
@@ -524,10 +523,3 @@ If _y_ is specified, sets the _y_-coordinate of the sphere center to the specifi
 <a name="radial_z" href="#radial_z">#</a> <i>radial</i>.<b>z</b>([<i>z</i>]) · [Source](https://github.com/vasturiano/d3-force-3d/blob/master/src/radial.js)  
 
 If _z_ is specified, sets the _z_-coordinate of the sphere center to the specified number and returns this force. If _z_ is not specified, returns the current _z_-coordinate of the center, which defaults to zero. 
-
-[npm-img]: https://img.shields.io/npm/v/d3-force-3d
-[npm-url]: https://npmjs.org/package/d3-force-3d
-[build-size-img]: https://img.shields.io/bundlephobia/minzip/d3-force-3d
-[build-size-url]: https://bundlephobia.com/result?p=d3-force-3d
-[npm-downloads-img]: https://img.shields.io/npm/dt/d3-force-3d
-[npm-downloads-url]: https://www.npmtrends.com/d3-force-3d
